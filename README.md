@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/thisha-me/pdf-light/actions/workflows/ci.yml/badge.svg)](https://github.com/thisha-me/pdf-light/actions/workflows/ci.yml)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
-[![npm version](https://badge.fury.io/js/pdf-light.svg)](https://badge.fury.io/js/pdf-light)
+[![NPM Version](https://img.shields.io/npm/v/pdf-light.svg?style=flat)](https://www.npmjs.com/package/pdf-light)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 An enterprise-grade, lightweight Node.js library to generate PDFs from HTML/Handlebars templates efficiently without using Puppeteer, Chromium, or any headless browser.
