@@ -1,3 +1,8 @@
+/**
+ * @license ISC
+ * Copyright (c) 2025 Dhanuja Thishakya Samaranayake
+ */
+
 import { PdfEngine } from './core/PdfEngine';
 import { GeneratePdfOptions } from './types';
 

@@ -77,4 +77,5 @@ Compared to Puppeteer:
 
 ## License
 
-ISC
+ISC © 2025 Dhanuja Thishakya Samaranayake
+
