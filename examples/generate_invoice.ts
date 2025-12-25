@@ -159,8 +159,8 @@ const htmlTemplate = `
 
 async function main() {
   const data = {
-    invoiceId: 'INV-2024-001',
-    date: '2024-12-25',
+    invoiceId: 'INV-2025-001',
+    date: '2025-12-25',
     customerName: 'John Doe',
     customerAddress: '1234 Elm St, Springfield, IL',
     items: [

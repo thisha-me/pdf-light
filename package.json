@@ -26,7 +26,7 @@
     "typescript",
     "handlebars"
   ],
-  "author": "",
+  "author": "Dhanuja Thishakya Samaranayake",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {

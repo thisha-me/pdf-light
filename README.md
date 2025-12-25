@@ -12,7 +12,7 @@ An enterprise-grade, lightweight Node.js library to generate PDFs from HTML/Hand
 -   **Zero Headless Browser**: Drop the 300MB+ Chrome binary. Run on Lambda/Alpine effortlessly.
 -   **Blazing Fast**: Startup time is milliseconds, not seconds.
 -   **Pure TypeScript**: Type-safe and developer-friendly.
--   **Pixel Perfect Layouts**: Use your specialized cursor layout engine for precise invoice generation.
+-   **Pixel Perfect Layouts**: Advanced layout engine for precise document generation.
 
 ## Features
 

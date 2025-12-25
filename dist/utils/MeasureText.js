@@ -27,7 +27,7 @@ class MeasureText {
             const word = words[i];
             const testLine = currentLine + ' ' + word;
             const width = this.getWidth(testLine, font, fontSize);
-            if (width < maxWidth) {
+            if (width <= maxWidth) {
                 currentLine = testLine;
             }
             else {
