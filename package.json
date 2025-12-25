@@ -1,13 +1,27 @@
 {
   "name": "pdf-light",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Enterprise-grade, lightweight HTML to PDF generator for Node.js - No Puppeteer/Chromium required.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": [],
+  "keywords": [
+    "pdf",
+    "html-to-pdf",
+    "nodejs",
+    "pdf-generation",
+    "no-headless",
+    "lightweight",
+    "typescript",
+    "handlebars"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",

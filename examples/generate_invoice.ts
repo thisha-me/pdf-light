@@ -184,7 +184,7 @@ async function main() {
       }
     });
 
-    const outputPath = path.join(__dirname, 'invoice_v2.pdf');
+    const outputPath = path.join(__dirname, 'invoice.pdf');
     fs.writeFileSync(outputPath, buffer);
     console.log(`PDF generated successfully at: ${outputPath}`);
   } catch (error) {
