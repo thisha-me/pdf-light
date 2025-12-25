@@ -1,3 +1,7 @@
+/**
+ * @license ISC
+ * Copyright (c) 2025 Dhanuja Thishakya Samaranayake
+ */
 import { GeneratePdfOptions } from './types';
 export { GeneratePdfOptions } from './types';
 /**

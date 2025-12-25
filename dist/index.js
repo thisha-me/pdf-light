@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * @license ISC
+ * Copyright (c) 2025 Dhanuja Thishakya Samaranayake
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePDF = generatePDF;
 const PdfEngine_1 = require("./core/PdfEngine");
