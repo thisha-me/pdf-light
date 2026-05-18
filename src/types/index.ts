@@ -16,6 +16,12 @@ export interface GeneratePdfOptions {
   data?: Record<string, any>;
 
   /**
+   * Optional CSS stylesheet string. Supports tag, .class, #id selectors.
+   * Applied during parsing before inline styles (CSS cascade).
+   */
+  css?: string;
+
+  /**
    * Page layout configuration.
    */
   layout?: {

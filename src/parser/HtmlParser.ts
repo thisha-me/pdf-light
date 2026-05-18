@@ -3,15 +3,24 @@ import { RenderNode } from '../types';
 
 export class HtmlParser {
 
+  private static cssRules: Array<[string, Record<string, string>]> = [];
+
   /**
    * Parses raw HTML string into a tree of RenderNodes.
    */
-  static parse(html: string): RenderNode[] {
+  static parse(html: string, css?: string): RenderNode[] {
+    // Extract styles from <style> tags and merge with provided css
+    const inlineStyles = HtmlParser.extractStyleTags(html);
+    const allCss = [inlineStyles, css || ''].filter(s => s.trim()).join('\n');
+    HtmlParser.cssRules = HtmlParser.parseCss(allCss);
     const rootNodes: RenderNode[] = [];
     const stack: RenderNode[] = [];
 
     const parser = new htmlparser2.Parser({
       onopentag(name, attribs) {
+        // Skip <style> tags
+        if (name === 'style') return;
+
         const node = HtmlParser.createNode(name, attribs);
         if (!node) return; // Skip unsupported tags
 
@@ -49,7 +58,7 @@ export class HtmlParser {
         }
       },
       onclosetag(name) {
-        if (!HtmlParser.isVoidElement(name)) {
+        if (!HtmlParser.isVoidElement(name) && name !== 'style') {
           stack.pop();
         }
       }
@@ -66,13 +75,17 @@ export class HtmlParser {
   }
 
   private static createNode(tagName: string, attribs: Record<string, string>): RenderNode | null {
-    const styles = HtmlParser.parseStyles(attribs.style);
-
     // Default styles based on tag
     const baseStyles = HtmlParser.getUserAgentStyles(tagName);
 
-    // Merge styles: Base < Inline
-    const finalStyles = { ...baseStyles, ...styles };
+    // Apply CSS rules matching this element
+    const classNames = attribs.class?.split(' ') ?? [];
+    const id = attribs.id;
+    const cssStyles = HtmlParser.applyCssRules(tagName, classNames, id);
+
+    // Merge styles: Base < CSS < Inline
+    const inlineStyles = HtmlParser.parseStyles(attribs.style);
+    const finalStyles = { ...baseStyles, ...cssStyles, ...inlineStyles };
 
     if (tagName === 'br') {
       return { type: 'break', styles: finalStyles }; // Special break node
@@ -154,7 +167,59 @@ export class HtmlParser {
     });
     return styles;
   }
+  private static extractStyleTags(html: string): string {
+    const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/g;
+    let css = '';
+    let match;
+    while ((match = styleRegex.exec(html)) !== null) {
+      css += match[1] + '\n';
+    }
+    return css;
+  }
 
+  private static parseCss(css: string): Array<[string, Record<string, string>]> {
+    const rules: Array<[string, Record<string, string>]> = [];
+    const ruleRegex = /([^{}]+)\s*{\s*([^}]+)\s*}/g;
+    let match;
+    while ((match = ruleRegex.exec(css)) !== null) {
+      const selector = match[1].trim();
+      const declarations: Record<string, string> = {};
+      match[2].split(';').forEach(decl => {
+        const [key, value] = decl.split(':').map(s => s.trim());
+        if (key && value) {
+          declarations[key] = value;
+        }
+      });
+      rules.push([selector, declarations]);
+    }
+    return rules;
+  }
+
+  private static matchesSelector(selector: string, tagName: string, classNames: string[], id?: string): boolean {
+    selector = selector.trim();
+    if (selector.startsWith('.')) {
+      return classNames.includes(selector.substring(1));
+    }
+    if (selector.startsWith('#')) {
+      return id === selector.substring(1);
+    }
+    return selector === tagName;
+  }
+
+  private static applyCssRules(tagName: string, classNames: string[], id?: string): Partial<RenderNode['styles']> {
+    const appliedStyles: any = {};
+    for (const [selector, declarations] of HtmlParser.cssRules) {
+      if (HtmlParser.matchesSelector(selector, tagName, classNames, id)) {
+        const declarationStyles = HtmlParser.parseStyles(
+          Object.entries(declarations)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join(';')
+        );
+        Object.assign(appliedStyles, declarationStyles);
+      }
+    }
+    return appliedStyles;
+  }
   private static getUserAgentStyles(tagName: string): RenderNode['styles'] {
     // Default baseline styles
     const s: RenderNode['styles'] = {

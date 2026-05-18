@@ -14,7 +14,7 @@ export class PdfEngine {
     const html = HandlebarsRenderer.render(options.html, options.data);
 
     // 2. Parse HTML
-    const renderTree = HtmlParser.parse(html);
+    const renderTree = HtmlParser.parse(html, options.css);
 
     // 3. Initialize PDF
     const doc = await PDFDocument.create();

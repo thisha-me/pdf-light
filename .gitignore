@@ -19,3 +19,5 @@ yarn-error.log*
 
 # Examples
 examples/*.pdf
+# Test Output
+test_output/
